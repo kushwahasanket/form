@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+
+
+<body>
+    <form action="/"  enctype="multipart/form-data" method="POST">
+        <label>Enter name: </label>
+        <input  type="text" id = "team_name" name="name_field" value="Default name for team.">
+       
+        photo <input type="file" name="myimage" accept="image/*">
+        
+        <input type="submit" value="OK">
+    </form>
+
+   <hr/>
+   <h1>Search</h1>
+    <form action="/search"  method="GET">
+        <label>Enter name: </label>
+        <input  type="text" id = "team_name" name="name" value="Default name for team.">
+        <input type="submit" value="OK">
+    </form>
+    
+    
+</body>
+</html>
