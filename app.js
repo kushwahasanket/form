@@ -10,6 +10,13 @@ app.use(express.urlencoded({ extended: true }));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 var fs = require('fs');
+var url = require('url');
+
+app.use(express.static('public'));
+
+//Serves all the request which includes /images in the url from Images folder
+app.use('/uploads', express.static(__dirname + '/uploads'));
+
 
 const db = mongoose.connection;
 mongoose.connect('mongodb://localhost/testform', {
@@ -22,8 +29,6 @@ db.once('open', function () {
 });
 app.get('/', (req, res) => {
     res.render('index')
-
-
 })
 var multer = require('multer');
 const { isBuffer } = require('util');
@@ -51,7 +56,7 @@ app.post('/', upload.single('myimage'), (req, res) => {
         img: {
             data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.file.filename)),
             contentType: 'image/png',
-            url: req.file.path
+            url:"../uploads/"+req.file.filename
 
         }
 
@@ -69,14 +74,9 @@ app.post('/', upload.single('myimage'), (req, res) => {
 })
 
 app.get('/search', (req, res) => {
-    // Form.findOne({name: req.query.name},(error , data)=>{
-    //     if(error) console.log('error');
-    //     console.log(data + 'found')
-    //     res.render('submit', {name: [(data && data.img.url) || "Nothing"]})
-    // })
+  
     Form.find().then(data => {
         console.log(data.map(({ img }) => img.url))
-        console.log(data.name)
 
         var a = {
             //name: data.name
@@ -88,17 +88,25 @@ app.get('/search', (req, res) => {
         res.render('submit', a)
     })
 })
-app.get('/:username',(req,res)=>{
-    Form.find().then(data => {
-        console.log(data.map(({ img }) => img.url))
+app.get('/search/:searchedname',(req,res)=>{
+    
+  console.log('serached data '+req.query.name)
 
+Form.find({name:req.query.name},(err,data)=>{
+    if(err)
+    {
+        //console.log(err)
+    }
+    else{
+        console.log(data);
         var a = {
+            //name: data.name
             name: data.map(({ name }) => name),
             url: data.map(({ img }) => img.url)
         }
-
-        //res.render('submit', { "name": data.map(({name}) => name)})
-        res.render('submit', a)
+    }
+    
+    res.render('search',a)
 })
 })
 

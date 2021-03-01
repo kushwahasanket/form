@@ -7,7 +7,12 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>submitted</h1>
+    <h1>Search</h1>
+    <form action="/search/something"  method="GET">
+        <label>Enter name: </label>
+        <input  type="text" id = "team_name" name="name" value="hi">
+        <input type="submit" value="OK">
+    </form>
    
     
     <ul>
@@ -15,17 +20,11 @@
     
         <% for (var i =0; i < name.length;  i++ ) { %>
             <li><%= name[i]%></li>
-            <a href=<%= name[i]%>><%= name[i]%></a>
-             
+            <a href="/search"+<%= name[i]%>><%= name[i]%></a>
+            <li><%= url[i]%></li>
+             <img src=<%=url[i]%> alt="200">
     <% } %></form>
     
-
-    <!-- <% for (var i =0; i < url.length;  i++ ) { %>
-        <li><%= url[i]%></li>
-         
-    <% } %> -->
-
-    
-</ul>
+</ul>  
 </body>
 </html>
