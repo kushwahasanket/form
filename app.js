@@ -11,6 +11,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 var fs = require('fs');
 var url = require('url');
+const { body, validationResult } = require('express-validator');
 
 app.use(express.static('public'));
 
@@ -45,14 +46,18 @@ var storage = multer.diskStorage({
 
 var upload = multer({ storage: storage });
 
-app.post('/', upload.single('myimage'), (req, res) => {
+app.post('/',body('name_email').isEmail(),
+upload.single('myimage'), (req, res) => {
 
     var f = req.file
     if (!f)
         res.send('upload file pls!!!!')
-    console.log(req.file)
+   // console.log(req.file)
     var n = {
+        email:req.body.nam_email,
+        video:req.body.name_video,
         name: req.body.name_field,
+        phone:req.body.name_phone,
         img: {
             data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.file.filename)),
             contentType: 'image/png',
@@ -61,7 +66,8 @@ app.post('/', upload.single('myimage'), (req, res) => {
         }
 
     }
-    console.log(req.body.name_field)
+    console.log(n)
+    //console.log(req.body.name_field)
     var d = new Form(n)
     d.save()
         .then(item => {
@@ -76,10 +82,13 @@ app.post('/', upload.single('myimage'), (req, res) => {
 app.get('/search', (req, res) => {
   
     Form.find().then(data => {
-        console.log(data.map(({ img }) => img.url))
+        //.log(data.map(({ img }) => img.url))
 
         var a = {
             //name: data.name
+            email:data.map(({ email }) => email),
+            video:data.map(({ video }) => video),
+            phone:data.map(({ phone }) => phone),
             name: data.map(({ name }) => name),
             url: data.map(({ img }) => img.url)
         }
@@ -90,7 +99,7 @@ app.get('/search', (req, res) => {
 })
 app.get('/search/:searchedname',(req,res)=>{
     
-  console.log('serached data '+req.query.name)
+  //console.log('serached data '+req.query.name)
 
 Form.find({name:req.query.name},(err,data)=>{
     if(err)
