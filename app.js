@@ -61,7 +61,7 @@ upload.single('myimage'), (req, res) => {
         img: {
             data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.file.filename)),
             contentType: 'image/png',
-            url:"../uploads/"+req.file.filename
+            url:"/uploads/"+req.file.filename
 
         }
 
@@ -82,40 +82,26 @@ upload.single('myimage'), (req, res) => {
 app.get('/search', (req, res) => {
   
     Form.find().then(data => {
-        //.log(data.map(({ img }) => img.url))
-
-        var a = {
-            //name: data.name
-            email:data.map(({ email }) => email),
-            video:data.map(({ video }) => video),
-            phone:data.map(({ phone }) => phone),
-            name: data.map(({ name }) => name),
-            url: data.map(({ img }) => img.url)
-        }
-
-        //res.render('submit', { "name": data.map(({name}) => name)})
-        res.render('submit', a)
+       
+        //console.log(data)
+       
+        res.render('submit', {"a":data})
+      
     })
 })
 app.get('/search/:searchedname',(req,res)=>{
-    
-  //console.log('serached data '+req.query.name)
-
-Form.find({name:req.query.name},(err,data)=>{
-    if(err)
-    {
-        //console.log(err)
-    }
-    else{
-        console.log(data);
-        var a = {
-            //name: data.name
-            name: data.map(({ name }) => name),
-            url: data.map(({ img }) => img.url)
-        }
-    }
-    
-    res.render('search',a)
+    console.log(req.query)
+Form.find({"name":req.query.name},(error,data)=>{
+    // if(err)
+    // {
+    //     console.log(err)
+    // }
+    // else{
+    //     //console.log(data);
+    //     res.render('search',{"a":data})
+    // }
+    console.log(data)
+    res.render('search',{a:data})
 })
 })
 

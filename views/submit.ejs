@@ -18,11 +18,12 @@
     <ul>
     <form action="/res" method="GET">
     
-        <% for (var i =0; i < name.length;  i++ ) { %>
-            <li><%= name[i]%></li>
-            <a href="/search"+<%= name[i]%>><%= name[i]%></a>
-            <li><%= url[i]%></li>
-             <img src=<%=url[i]%> alt="200">
+        <% for(var i =0 ; i < a.length;  i++ ) { %>
+            <li><%= a[i].name %></li>
+            <a href="/search"+<%= a[i].email%>><%= a[i].name%></a>
+            <li><%= a[i].img.url%></li>
+            <li><%= a[i].email%></li>
+             <img src=<%=a[i].img.url %> alt="200">
     <% } %></form>
     
 </ul>  
