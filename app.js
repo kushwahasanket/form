@@ -4,6 +4,7 @@ var path = require('path');
 var Form = require('./model/db');
 var bodyParser = require('body-parser')
 var app = express()
+var {submit_form_data} = require('./form data/form_data')
 app.use(bodyParser.json())
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -45,16 +46,29 @@ var storage = multer.diskStorage({
 });
 
 var upload = multer({ storage: storage });
-
-app.post('/',body('name_email').isEmail(),
+//,body('name_email').isEmail()
+app.post('/',body('name_email').isEmail().normalizeEmail(),
 upload.single('myimage'), (req, res) => {
+
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+        return res.status(400).json({
+            success: false,
+            errors: errors.array()
+        });
+    }
+
+   //console.log("heyyyyyyyyyyyyyyyy"+res.keyValue.email);
+
+   
 
     var f = req.file
     if (!f)
         res.send('upload file pls!!!!')
-   // console.log(req.file)
+   
     var n = {
-        email:req.body.nam_email,
+        email:req.body.name_email,
         video:req.body.name_video,
         name: req.body.name_field,
         phone:req.body.name_phone,
@@ -66,40 +80,43 @@ upload.single('myimage'), (req, res) => {
         }
 
     }
-    console.log(n)
-    //console.log(req.body.name_field)
+    console.log("before saving")
     var d = new Form(n)
+    console.log(d)
+
     d.save()
         .then(item => {
-
+            res.send("sucess full");
         })
         .catch(err => {
+
             console.log(err);
+            res.end('ERROR WHILE SENDING')
         });
-    res.redirect('/')
+        
+     
 })
 
 app.get('/search', (req, res) => {
   
-    Form.find().then(data => {
-       
-        //console.log(data)
-       
-        res.render('submit', {"a":data})
+    // Form.find().then(data => {
+    //     res.render('submit', {"a":data})
       
-    })
+    // }).limit(2)
+
+    Form.find({},function(err,result){
+        if(err) {
+          res.send(err);
+        } else {
+            res.render('submit', {"a":result})
+        }
+      })
+      .limit(3);
 })
 app.get('/search/:searchedname',(req,res)=>{
     console.log(req.query)
 Form.find({"name":req.query.name},(error,data)=>{
-    // if(err)
-    // {
-    //     console.log(err)
-    // }
-    // else{
-    //     //console.log(data);
-    //     res.render('search',{"a":data})
-    // }
+    
     console.log(data)
     res.render('search',{a:data})
 })

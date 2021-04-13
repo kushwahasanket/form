@@ -19,6 +19,7 @@ var mongoose = require('mongoose')
     phone:  
     {
       type:String,
+      unique: true,
       
       min:10,
       
@@ -29,6 +30,8 @@ var mongoose = require('mongoose')
     },
     email:{
       type:String,
+      require:true,
+      unique:true
      
     }
       
