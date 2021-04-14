@@ -25,6 +25,12 @@
             <li><%= a[i].email%></li>
              <img src=<%=a[i].img.url %> alt="200">
     <% } %></form>
+
+    <a href="/search?page=1">1</a>
+    <a href="/search?page=<%=nextpage  %>"><%=nextpage  %></a>
+    <a href="/search?page=<%=total_item  %>"><%=total_item  %></a>
+  
+   
     
 </ul>  
 </body>

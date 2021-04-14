@@ -34,8 +34,6 @@ app.get('/', (req, res) => {
 })
 var multer = require('multer');
 const { isBuffer } = require('util');
-
-
 var storage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, 'uploads')
@@ -46,20 +44,19 @@ var storage = multer.diskStorage({
 });
 
 var upload = multer({ storage: storage });
-//,body('name_email').isEmail()
-app.post('/',body('name_email').isEmail().normalizeEmail(),
-upload.single('myimage'), (req, res) => {
 
+//use ismail() after the upload because it will not able to handle multipart data
+app.post('/',upload.single('myimage'),body('name_email').isEmail(), (req, res) => {
+    
     const errors = validationResult(req);
+    console.log(errors)
 
-    if (!errors.isEmpty()) {
+    if(!errors.isEmpty()) {
         return res.status(400).json({
             success: false,
             errors: errors.array()
         });
     }
-
-   //console.log("heyyyyyyyyyyyyyyyy"+res.keyValue.email);
 
    
 
@@ -98,21 +95,34 @@ upload.single('myimage'), (req, res) => {
 })
 
 app.get('/search', (req, res) => {
-  
-    // Form.find().then(data => {
-    //     res.render('submit', {"a":data})
-      
-    // }).limit(2)
+    const page = req.query.page;
+   var totalitem
+      var itemsperpage = 5;
+      Form.find().estimatedDocumentCount().then(numberofitems=>{
+        totalitem = numberofitems
+        Form.find({},function(err,result){
+                    if(err) {
+                       res.send(err);
+                     } else {
+                         res.render('submit', 
+                         {
+                             "a":result,
 
-    Form.find({},function(err,result){
-        if(err) {
-          res.send(err);
-        } else {
-            res.render('submit', {"a":result})
-        }
-      })
-      .limit(3);
-})
+                            "total_item" : Math.ceil(totalitem/3),
+
+                            "nextpage" : parseInt(page)+1,
+                             "prevpage": page - 1,
+                        })
+                     }
+                   })
+                   .skip((page-1)*itemsperpage)
+                   .limit(3);
+    });  
+ 
+});
+
+
+
 app.get('/search/:searchedname',(req,res)=>{
     console.log(req.query)
 Form.find({"name":req.query.name},(error,data)=>{
