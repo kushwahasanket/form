@@ -5,33 +5,89 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+input[type=text] {
+  width: 130px;
+  box-sizing: border-box;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  background-color: white;
+  background-image: url('searchicon.png');
+  background-position: 10px 10px; 
+  background-repeat: no-repeat;
+  padding: 12px 20px 12px 40px;
+  -webkit-transition: width 0.4s ease-in-out;
+  transition: width 0.4s ease-in-out;
+}
+
+input[type=text]:focus {
+  width: 100%;
+}
+
+        .card {
+          box-shadow: 0 8px 16px 0 rgba(6, 67, 75, 0.774);
+          transition: 0.3s;
+          width: 40%;
+        }
+        
+        .card:hover {
+          box-shadow: 0 8px 16px 0 rgba(7, 1, 1, 0.74);
+        }
+        
+        .container {
+          padding: 2px 16px;
+        }
+
+        .p{
+
+        }
+
+        .button1 {
+  background-color: white; 
+  color: black; 
+  border: 2px solid #4CAF50;
+  size: 100px;
+  padding: 15px 32px;
+}
+
+.button1:hover {
+  background-color: #4CAF50;
+  color: white;
+}
+.center{
+    border: 2px solid #4CAF50;
+    padding: 60px 100px;
+}
+        </style>
+
+
 </head>
 <body>
-    <h1>Search</h1>
+
     <form action="/search/something"  method="GET">
-        <label>Enter name: </label>
-        <input  type="text" id = "team_name" name="name" value="hi">
-        <input type="submit" value="OK">
+        <input type="text" name="search" placeholder="Search..">
+        <br><br>
+        
+        <button class="button button1">Search</button>
     </form>
-   
-    
-    <ul>
-    <form action="/res" method="GET">
+    <br><br>
     
         <% for(var i =0 ; i < a.length;  i++ ) { %>
-            <li><%= a[i].name %></li>
-            <a href="/search"+<%= a[i].email%>><%= a[i].name%></a>
-            <li><%= a[i].img.url%></li>
-            <li><%= a[i].email%></li>
-             <img src=<%=a[i].img.url %> alt="200">
-    <% } %></form>
-
-    <a href="/search?page=1">1</a>
+            <br>
+            <div class="card center" >
+                <img src=<%=a[i].img.url %> alt="200"  width="460" height="345">
+                <div class="container">
+                    <p><%= a[i].name %></p>
+                    
+                </div>
+                <br><br>
+                
+            </div>
+        <% } %>
+    </div>
+<a href="/search?page=1">1</a>
     <a href="/search?page=<%=nextpage  %>"><%=nextpage  %></a>
     <a href="/search?page=<%=total_item  %>"><%=total_item  %></a>
-  
-   
-    
-</ul>  
 </body>
 </html>

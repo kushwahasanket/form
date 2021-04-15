@@ -1,20 +1,35 @@
 <!DOCTYPE html>
 
-
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <body>
-    <form action="/"  enctype="multipart/form-data" method="POST">
-        <label>Enter name: </label>
-        <input  type="text" id = "team_name" name="name_field" value="Default name for team.">
-        <input  type="text" id = "phone" name="name_phone" value="9611127702 ">
-        <input  type="text" id = "video" name="name_video" value="give youtube link">
-        <input  type="text" id = "email" name="name_email" value="eg@gmail.com">
-       
-        photo <input type="file" name="myimage" accept="image/*">
-        
-        
-        <input type="submit" value="OK">
+    <!-- class="w3-container w3-card-4" -->
+    <form class="w3-container" action="/"  method="POST" enctype="multipart/form-data">
+        <h2 class="w3-text-blue">Register Form</h2>
+
+        <p>      
+        <label class="w3-text-blue"><b>Enter Full Name</b></label>
+        <input class="w3-input w3-border" name="name_field" type="text"></p>
+        <p>      
+        <label class="w3-text-blue"><b>*enter Mobile number</b></label>
+        <input class="w3-input w3-border" name="name_phone" type="text"></p>
+        <p>    
+        <p>      
+        <label class="w3-text-blue"><b>*enter Youtube Link </b></label>
+        <input class="w3-input w3-border" name="name_video" type="text"></p>
+        <p>  
+        <p>      
+        <label class="w3-text-blue"><b>*enter Youtube Link </b></label>
+        <input class="w3-input w3-border" name="name_email" type="text"></p>
+        <p> 
+        <p>    
+        <label class="w3-text-blue"><b>*enter photo </b></label>
+        <input class="w3-input w3-border" name="myimage" type="file" accept="image/*"></p>
+        <p>
+        <p><button class="w3-button w3-dark-grey">Register</button></p>
+         
     </form>
 
-   <hr/>
+   
 </body>
 </html>
