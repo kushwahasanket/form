@@ -72,22 +72,28 @@ input[type=text]:focus {
         <button class="button button1">Search</button>
     </form>
     <br><br>
+    <img src="../controller/uploads/myimage-1618646898019.jpg" alt="wow">
+    <img src="../uploads/myimage-1614654510018.jpg" alt="gig">
     
         <% for(var i =0 ; i < a.length;  i++ ) { %>
             <br>
             <div class="card center" >
-                <img src=<%=a[i].img.url %> alt="200"  width="460" height="345">
+                <img src=<%=a[i].img.url %> width="460" height="345" alt="200">
                 <div class="container">
                     <p><%= a[i].name %></p>
+                    <p><%= a[i].img.url %></p>
                     
                 </div>
                 <br><br>
                 
             </div>
         <% } %>
+
     </div>
 <a href="/search?page=1">1</a>
     <a href="/search?page=<%=nextpage  %>"><%=nextpage  %></a>
     <a href="/search?page=<%=total_item  %>"><%=total_item  %></a>
+   
 </body>
 </html>
+../controller/uploads/myimage-1618646898019.jpg
