@@ -5,22 +5,20 @@ var Form = require('../model/db');
 const fs = require('fs');
 var bodyParser = require('body-parser')
 var app = express()
-app.use(bodyParser.json())
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+const multer = require('multer');
+
+
+
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 const { body, validationResult } = require('express-validator');
-
 const { isBuffer } = require('util');
-
 
 module.exports = {
     get_index_homepage:(req,res)=>{
         res.render('index')
     },
     post_index:  (req, res) => {
-    
         const errors = validationResult(req);
         console.log(errors)
     
@@ -30,14 +28,9 @@ module.exports = {
                 errors: errors.array()
             });
         }
-    
-       
-    
         var f = req.file
         if (!f)
             res.send('upload file pls!!!!')
-            
-       
         var n = {
             email:req.body.name_email,
             video:req.body.name_video,
@@ -47,8 +40,7 @@ module.exports = {
 
                 data: fs.readFileSync(path.join(__dirname ,'../uploads/' + req.file.filename)),
                 contentType: 'image/png',
-                url:"/uploads/"+req.file.filename
-    
+                url:"../uploads/"+req.file.filename
             }
     
         }
@@ -91,8 +83,11 @@ module.exports = {
                        .skip((page-1)*itemsperpage)
                        .limit(3);
         });  
-     
+    },
+
+    postlogin:(req,res)=>{
+       var  n = req.body
+              console.log(n);
+        res.send(n);
     }
-
-
 }

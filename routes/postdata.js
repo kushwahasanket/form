@@ -1,5 +1,6 @@
 var express = require('express')
 var multer = require('multer');
+
 var path = require('path');
 const fs = require('fs');
 var getindex = require('../controller/filehandelling')
@@ -13,6 +14,10 @@ var storage = multer.diskStorage({
 });
 
 var upload = multer({ storage: storage });
+
+
+
 router.post('/index',upload.single('myimage'),body('name_email').isEmail(),getindex.post_index)
+
 
 module.exports = router
