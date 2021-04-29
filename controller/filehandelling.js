@@ -7,8 +7,6 @@ var bodyParser = require('body-parser')
 var app = express()
 const multer = require('multer');
 
-
-
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 const { body, validationResult } = require('express-validator');
@@ -89,5 +87,22 @@ module.exports = {
        var  n = req.body
               console.log(n);
         res.send(n);
+    },
+
+    register_post:(req, res)=> {
+        var username = req.body.username
+        var password = req.body.password
+        User.register(new User({ username: username }),
+                password, function (err, user) {
+            if (err) {
+                console.log(err);
+                return res.send(err);
+            }
+      
+            passport.authenticate("local")(
+                req, res, function() {
+                res.render("search");
+            });
+        });
     }
 }
