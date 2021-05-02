@@ -19,6 +19,7 @@ var auth = require('./routes/auth')
 var mongoose = require('mongoose');
 const session = require('express-session');
 require('./config/passport')(passport);
+app.use(express.static(__dirname+'/public'));
 app.use(
     session({
       secret: 'secret',
@@ -35,9 +36,6 @@ app.use(
   app.use(flash());
 
 app.use('/uploads',express.static('uploads'))
-
-
-
 const db = mongoose.connection;
 mongoose.connect('mongodb://localhost/testform', {
     useNewUrlParser: true,
@@ -111,7 +109,7 @@ app.post('/register', (req, res) => {
                     'success_msg',
                     'You are now registered and can log in'
                   );
-                  res.redirect('/login');
+                  res.redirect('/');
                 })
                 .catch(er => console.log(er));
             });
